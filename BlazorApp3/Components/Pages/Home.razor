@@ -19,6 +19,18 @@ Welcome to your new Fluent Blazor app.
 <p>ID: @(Input.Country?.CountryId.ToString() ?? "<NULL>")</p>
 
 
+<h4>Input2</h4>
+<FluentCombobox Items="@Countries"
+                Height="300px"
+                Autocomplete="ComboboxAutocomplete.Both"
+                Label="Land"
+                OptionText="@(i => i!.Name)"
+                OptionValue="@(i => i!.CountryId.ToString())"
+                OptionSelected="@(i => i!.CountryId == Input2.CountryId)"
+                @bind-SelectedOption="@Input2.Country"
+                @bind-SelectedOption:after="AfterOptionSelected2" />
+<p>ID: @(Input2.Country?.CountryId.ToString() ?? "<NULL>")</p>
+
 
 
 @code {
@@ -26,6 +38,12 @@ Welcome to your new Fluent Blazor app.
     {
         // Note that Input.Country is null
         Input.CountryId = Input.Country?.CountryId;
+    }
+
+    private void AfterOptionSelected2()
+    {
+        // Note that Input.Country is null
+        Input2.CountryId = Input.Country?.CountryId;
     }
 
     public MyInput Input = new()
@@ -37,6 +55,19 @@ Welcome to your new Fluent Blazor app.
                 Name = "Germany"
             }
         };
+
+
+    public MyInput Input2 { get; set; }
+
+    public Home()
+    {
+        Input2 = new()
+            {
+                Country = Countries.First(),
+                CountryId = 1
+            };
+    }
+
 
 
 
