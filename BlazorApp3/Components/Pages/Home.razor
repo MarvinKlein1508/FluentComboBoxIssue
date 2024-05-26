@@ -6,31 +6,39 @@
 
 Welcome to your new Fluent Blazor app.
 
+<h4>Input</h4>
 <FluentCombobox Items="@Countries"
                 Height="300px"
                 Autocomplete="ComboboxAutocomplete.Both"
                 Label="Land"
                 OptionText="@(i => i!.Name)"
                 OptionValue="@(i => i!.CountryId.ToString())"
-                OptionSelected="@(i => i!.CountryId is int countryId && countryId == Input.CountryId)"
+                OptionSelected="@(i => i!.CountryId == Input.CountryId)"
                 @bind-SelectedOption="@Input.Country"
                 @bind-SelectedOption:after="AfterOptionSelected" />
 <p>ID: @(Input.Country?.CountryId.ToString() ?? "<NULL>")</p>
+
+
+
 
 @code {
     private void AfterOptionSelected()
     {
         // Note that Input.Country is null
+        Input.CountryId = Input.Country?.CountryId;
     }
+
     public MyInput Input = new()
-    {
-        CountryId = 1,
-        Country = new Country
         {
             CountryId = 1,
-            Name = "Germany"
-        }
-    };
+            Country = new Country
+            {
+                CountryId = 1,
+                Name = "Germany"
+            }
+        };
+
+
 
     public List<Country> Countries { get; set; } = new()
     {
