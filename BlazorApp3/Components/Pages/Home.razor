@@ -14,10 +14,14 @@ Welcome to your new Fluent Blazor app.
                 OptionValue="@(i => i!.CountryId.ToString())"
                 OptionSelected="@(i => i!.CountryId is int countryId && countryId == Input.CountryId)"
                 @bind-SelectedOption="@Input.Country"
-                @bind-SelectedOption:after="() => Input.CountryId = Input.Country?.CountryId" />
+                @bind-SelectedOption:after="AfterOptionSelected" />
 <p>ID: @(Input.Country?.CountryId.ToString() ?? "<NULL>")</p>
 
 @code {
+    private void AfterOptionSelected()
+    {
+        // Note that Input.Country is null
+    }
     public MyInput Input = new()
     {
         CountryId = 1,
