@@ -1,0 +1,56 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new Fluent Blazor app.
+
+<FluentCombobox Items="@Countries"
+                Height="300px"
+                Autocomplete="ComboboxAutocomplete.Both"
+                Label="Land"
+                OptionText="@(i => i!.Name)"
+                OptionValue="@(i => i!.CountryId.ToString())"
+                OptionSelected="@(i => i!.CountryId is int countryId && countryId == Input.CountryId)"
+                @bind-SelectedOption="@Input.Country"
+                @bind-SelectedOption:after="() => Input.CountryId = Input.Country?.CountryId" />
+<p>ID: @(Input.Country?.CountryId.ToString() ?? "<NULL>")</p>
+
+@code {
+    public MyInput Input = new()
+    {
+        CountryId = 1,
+        Country = new Country
+        {
+            CountryId = 1,
+            Name = "Germany"
+        }
+    };
+
+    public List<Country> Countries { get; set; } = new()
+    {
+        new Country
+        {
+            CountryId = 1,
+            Name = "Germany"
+        },
+        new Country
+        {
+            CountryId = 2,
+            Name = "Netherlands"
+        }
+    };
+
+    public class Country
+    {
+        public int CountryId { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class MyInput
+    {
+        public int? CountryId { get; set; }
+        public Country? Country { get; set; }
+    }
+}
